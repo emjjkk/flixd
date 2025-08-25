@@ -1,0 +1,32 @@
+/workspaces/flixd/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:105
+    if (!supabaseKey) throw new Error('supabaseKey is required.')
+                            ^
+
+
+Error: supabaseKey is required.
+    at new SupabaseClient (/workspaces/flixd/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:105:29)
+    at createClient (/workspaces/flixd/node_modules/@supabase/supabase-js/src/index.ts:46:10)
+    at <anonymous> (/workspaces/flixd/src/scripts/sync-genres.ts:6:18)
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.17.0
+/workspaces/flixd/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:105
+    if (!supabaseKey) throw new Error('supabaseKey is required.')
+                            ^
+
+
+Error: supabaseKey is required.
+    at new SupabaseClient (/workspaces/flixd/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:105:29)
+    at createClient (/workspaces/flixd/node_modules/@supabase/supabase-js/src/index.ts:46:10)
+    at <anonymous> (/workspaces/flixd/src/scripts/sync-genres.ts:6:18)
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.17.0
+🔄 Fetching genres...
+📀 Found 27 unique genres
+⬆️ Upserting into Supabase...
+✅ Genres synced successfully!
