@@ -116,7 +116,7 @@ export default function Hero() {
       .filter(Boolean) || [];
 
   return (
-    <div className="relative w-full h-[90dvh] overflow-hidden">
+    <div className="relative w-full md:h-[90dvh] h-[95dvh] overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -144,7 +144,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="w-1/2"
+                className="md:w-1/2"
               >
                 <span className="text-white text-xs font-semibold mb-5 uppercase">
                   Trending {activeItem.type === "movie" ? "Movie" : "TV Show"}
@@ -182,7 +182,7 @@ export default function Hero() {
                   </button>
                 </div>
 
-                <div className="w-3/4 bg-neutral-900 border border-neutral-500 p-3 mt-4 rounded-sm">
+                <div className="md:w-3/4 bg-neutral-900 border border-neutral-500 p-3 mt-4 rounded-sm">
                     "Ea fugit eum facere debitis unde alias ab neque cupiditate maxime? Blanditiis dolor ratione soluta accusamus incidunt quam recusandae ea maiores quisquam?" - User393938
                   </div>
               </motion.div>
@@ -198,7 +198,7 @@ export default function Hero() {
             key={index}
             onClick={() => setCurrent(index)}
             className={`h-1.5 rounded-full transition-all ${
-              index === current ? "w-12 bg-white" : "w-8 bg-white/40 hover:bg-white/60"
+              index === current ? "w-10 bg-white" : "w-5 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
