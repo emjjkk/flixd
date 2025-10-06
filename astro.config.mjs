@@ -1,15 +1,18 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro/config'
 
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from '@tailwindcss/vite'
+import react from '@astrojs/react'
 
-import react from '@astrojs/react';
-
-// https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    server: {
+      allowedHosts: [
+        // your Gitpod host
+        "4321-emjjkk-flixd-zasu2wl4are.ws-eu121.gitpod.io",
+      ],
+    },
   },
-
-  integrations: [react()]
-});
+  integrations: [react()],
+})
