@@ -41,22 +41,17 @@ export default function Hero() {
       sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
       const dateFilter = sixtyDaysAgo.toISOString().split("T")[0];
 
-      // Fetch genres
-      const { data: genres, error: genresError } = await supabase
-        .from("genres")
-        .select("id, name");
-
-      if (genresError) console.error("Genres error:", genresError);
-      if (genres && genres.length > 0) {
-        const map = genres.reduce((acc, g) => {
-          acc[g.id] = g.name;
-          return acc;
-        }, {} as Record<number, string>);
-        setGenresMap(map);
+      const { data: genres } = await supabase.from("genres").select("id, name");
+      if (genres) {
+        setGenresMap(
+          genres.reduce((acc, g) => {
+            acc[g.id] = g.name;
+            return acc;
+          }, {} as Record<number, string>)
+        );
       }
 
-      // Fetch top 10 movies
-      const { data: movies, error: moviesError } = await supabase
+      const { data: movies } = await supabase
         .from("movies")
         .select("*")
         .gte("release_date", dateFilter)
@@ -65,8 +60,7 @@ export default function Hero() {
         .order("popularity", { ascending: false })
         .limit(10);
 
-      // Fetch top 10 TV shows
-      const { data: tvShows, error: tvError } = await supabase
+      const { data: tvShows } = await supabase
         .from("tvshows")
         .select("*")
         .gte("first_air_date", dateFilter)
@@ -74,9 +68,6 @@ export default function Hero() {
         .gte("vote_count", 100)
         .order("popularity", { ascending: false })
         .limit(10);
-
-      if (moviesError) console.error("Movies error:", moviesError);
-      if (tvError) console.error("TV shows error:", tvError);
 
       const combinedItems: MediaItem[] = [
         ...(movies?.map((m) => ({ ...m, type: "movie" as const })) || []),
@@ -100,8 +91,15 @@ export default function Hero() {
 
   if (isLoading || items.length === 0) {
     return (
-      <div className="relative w-full h-screen bg-neutral-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="relative h-screen flex flex-col items-start justify-center gap-4 p-6 md:p-8 animate-pulse md:w-1/2">
+        <div className="w-1/3 h-6 bg-neutral-700 rounded" />
+        <div className="w-3/3 h-12 bg-neutral-700 rounded" />
+        <div className="w-1/2 h-4 bg-neutral-700 rounded mt-2" />
+        <div className="w-3/4 h-4 bg-neutral-700 rounded" />
+        <div className="flex gap-4 mt-4">
+          <div className="w-3/4 h-10 bg-neutral-700 rounded" />
+          <div className="w-3/4 h-10 bg-neutral-700 rounded" />
+        </div>
       </div>
     );
   }
@@ -116,7 +114,7 @@ export default function Hero() {
       .filter(Boolean) || [];
 
   return (
-    <div className="relative w-full md:h-[90dvh] h-[95dvh] overflow-hidden">
+    <div className="relative w-full md:h-[90dvh] h-[100dvh] overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -126,19 +124,18 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="absolute inset-0"
         >
-          {/* Background Image */}
+          {/* Background */}
           <div className="absolute inset-0">
             <img
               src={`https://image.tmdb.org/t/p/original${activeItem.backdrop_path}`}
               alt={title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+            <div className="absolute inset-0 md:bg-gradient-to-tr bg-gradient-to- from-black via-black/80 to-transparent" />
           </div>
 
           {/* Content */}
-          <div className="relative z-10 h-full flex items-center">
+          <div className="relative z-10 h-full flex items-end pb-20">
             <div className="container px-6 md:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -146,11 +143,13 @@ export default function Hero() {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="md:w-1/2"
               >
-                <span className="text-white text-xs font-semibold mb-5 uppercase">
+                <span className="text-white text-xs font-semibold mb-2 uppercase block">
                   Trending {activeItem.type === "movie" ? "Movie" : "TV Show"}
                 </span>
 
-                <h1 className="text-xl md:text-3xl text-black mt-4 leading-tight bg-yellow-500 w-fit">{title}</h1>
+                <h1 className="text-2xl md:text-3xl text-white mt-2 leading-tight [background:linear-gradient(transparent_60%,_#fa00ff_60%)] w-fit">
+                  {title}
+                </h1>
 
                 <div className="flex items-center gap-2 text-gray-300 mt-2">
                   {releaseYear && <span className="text-sm">{releaseYear}</span>}
@@ -181,10 +180,6 @@ export default function Hero() {
                     Add to Watchlist
                   </button>
                 </div>
-
-                <div className="md:w-3/4 bg-neutral-900 border border-neutral-500 p-3 mt-4 rounded-sm">
-                    "Ea fugit eum facere debitis unde alias ab neque cupiditate maxime? Blanditiis dolor ratione soluta accusamus incidunt quam recusandae ea maiores quisquam?" - User393938
-                  </div>
               </motion.div>
             </div>
           </div>
@@ -197,12 +192,12 @@ export default function Hero() {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`h-1.5 rounded-full transition-all ${
-              index === current ? "w-10 bg-white" : "w-5 bg-white/40 hover:bg-white/60"
-            }`}
+            className={`h-1.5 rounded-full transition-all ${index === current ? "w-10 bg-white" : "w-5 bg-white/40 hover:bg-white/60"
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
+
       </div>
     </div>
   );
